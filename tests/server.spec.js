@@ -23,7 +23,7 @@ describe("Operaciones CRUD de cafes", () => {
     });
   });
   describe("DELETE /cafes/:id", () => {
-    it("Eliminando un producto que no existe que devuelva 404", async () => {
+    it("Eliminando un producto que no exista el id y que devuelva 404", async () => {
       const jwt = "token";
       const idCafeAEliminar = 5;
       const response = await request(server)
@@ -34,4 +34,15 @@ describe("Operaciones CRUD de cafes", () => {
       expect(status).toBe(404)
     });
   });
+  describe("POST /cafes", () => {
+    const nuevoCafe = {
+        id: Math.floor(Math.random() * 999),
+        nombre: faker.helpers.arrayElement(['Macchiato', 'Frappuchino', 'Mocachino'])
+    }
+    it("Al crear un nuevo cafe que devuelva un codigo 201", async () => {
+        const response = await request(server).post("/cafes").send(nuevoCafe)
+        const status = response.statusCode
+        expect(status).toBe(201);
+    })
+  })
 });
